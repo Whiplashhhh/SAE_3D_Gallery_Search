@@ -131,7 +131,7 @@ des requêtes dont on connaît d'avance le bon résultat.
 ## 4. Les contrats
 
 Deux fichiers JSON + un journal. C'est tout. Ils sont validés par des modèles **Pydantic** dans
-`backend/src/gallery3d/contrats/`, en mode strict (`extra="forbid"`, `frozen=True`) : un champ en
+`backend/src/contrats/`, en mode strict (`extra="forbid"`, `frozen=True`) : un champ en
 trop ou un type faux est une erreur immédiate, pas un bug découvert trois semaines plus tard.
 
 ### `manifeste_rendu.json` — Lot A → Lot B
@@ -301,7 +301,7 @@ serait pris pour un succès. Relancer l'indexation reprend exactement là où el
 │   └── fiches/
 ├── backend/
 │   ├── pyproject.toml
-│   ├── src/gallery3d/
+│   ├── src/
 │   │   ├── config.py             ← commun : lecture du .env
 │   │   ├── contrats/             ← commun : modèles Pydantic + io
 │   │   ├── ollama/               ← commun : client HTTP (timeouts, retries, parsing défensif)
