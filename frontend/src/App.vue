@@ -1,43 +1,42 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { RouterView } from 'vue-router'
-import './App.css'
+import { ref } from 'vue'
+import { RouterLink, RouterView, useRouter } from 'vue-router'
 
-const modeSombre = ref(false)
+const router = useRouter()
+const query = ref('')
 
-onMounted(() => {
-  modeSombre.value = localStorage.getItem('theme') === 'dark'
-})
-
-function basculerTheme() {
-  modeSombre.value = !modeSombre.value
-  localStorage.setItem('theme', modeSombre.value ? 'dark' : 'light')
+function search() {
+  const value = query.value.trim()
+  if (value) {
+    router.push({ name: 'search', query: { q: value } })
+  }
 }
 </script>
 
 <template>
-  <div class="app-shell" :class="{ 'dark-theme': modeSombre }">
-    <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark">3D</span>
-        <div>
-          <h1>3D Gallery Search</h1>
-          <p>Recherche sémantique de modèles 3D</p>
-        </div>
-      </div>
+  <header class="site-header">
+    <div class="header-content">
+      <RouterLink class="brand" to="/">
+        <span>Shape<span class="brand-accent">find</span></span>
+      </RouterLink>
 
-      <button
-        class="theme-toggle"
-        type="button"
-        :aria-label="modeSombre ? 'Activer le mode clair' : 'Activer le mode sombre'"
-        @click="basculerTheme"
-      >
-        {{ modeSombre ? 'Mode clair' : 'Mode sombre' }}
-      </button>
-    </header>
+      <form class="header-search" role="search" @submit.prevent="search">
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input
+          v-model="query"
+          type="search"
+          placeholder="Rechercher un modèle 3D..."
+          aria-label="Rechercher un modèle 3D"
+        />
+        <button type="submit">Rechercher</button>
+      </form>
 
-    <main>
-      <RouterView />
-    </main>
-  </div>
+      <nav aria-label="Navigation principale">
+        <RouterLink to="/">Accueil</RouterLink>
+        <a href="#catalogue">Catalogue</a>
+      </nav>
+    </div>
+  </header>
+
+  <RouterView />
 </template>
