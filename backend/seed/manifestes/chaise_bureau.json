@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "id_modele": "a3f1c2d4e5b60789",
+  "fichier_source": "donnees/modeles/chaise_bureau.obj",
+  "sha256": "a3f1c2d4e5b607890f4d2c8a91b7e6350d24fa8817cc9b0e6a5d3f21c47b8e9d",
+  "date_rendu": "2026-09-10T14:32:10Z",
+  "moteur": "blender-4.2.1",
+  "resolution": [
+    512,
+    512
+  ],
+  "nombre_vues": 4,
+  "vues": [
+    {
+      "nom": "face",
+      "chemin": "donnees/rendus/a3f1c2d4e5b60789/face.png",
+      "azimut": 0,
+      "elevation": 15
+    },
+    {
+      "nom": "droite",
+      "chemin": "donnees/rendus/a3f1c2d4e5b60789/droite.png",
+      "azimut": 90,
+      "elevation": 15
+    },
+    {
+      "nom": "arriere",
+      "chemin": "donnees/rendus/a3f1c2d4e5b60789/arriere.png",
+      "azimut": 180,
+      "elevation": 15
+    },
+    {
+      "nom": "gauche",
+      "chemin": "donnees/rendus/a3f1c2d4e5b60789/gauche.png",
+      "azimut": 270,
+      "elevation": 15
+    }
+  ],
+  "vignette": "donnees/rendus/a3f1c2d4e5b60789/vignette.png"
+}
