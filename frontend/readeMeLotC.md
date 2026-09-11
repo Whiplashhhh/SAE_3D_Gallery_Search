@@ -1,4 +1,4 @@
-## Fonctionnement du Lot c
+## 1. Fonctionnement du Lot c
 
 Le Lot C est composé d'un frontend Vue 3, d'une API FastAPI, d'une base SQLite
 pour les informations métier et de ChromaDB pour la recherche vectorielle.
@@ -87,7 +87,7 @@ Lorsque Ollama est disponible, l'embedding de la requête est généré via
 `POST /api/embed`. En développement hors connexion, un vectoriseur local de
 secours est utilisé.
 
-## 12. Démarrage local
+## 2. Démarrage local
 
 ### Backend
 
@@ -132,7 +132,7 @@ GET  /api/sante
 POST /api/models/upload
 ```
 
-## 13. Configuration Ollama
+## 3. Configuration Ollama
 
 Les paramètres Ollama peuvent être définis dans un fichier `.env` à la racine du
 backend :
@@ -146,7 +146,7 @@ OLLAMA_TIMEOUT_S=30
 Ollama ne doit pas être exposé directement sur Internet. En production, il doit
 rester accessible sur le réseau privé du serveur.
 
-## 14. Mise en ligne
+## 4. Mise en ligne
 
 L'architecture recommandée est la suivante :
 
