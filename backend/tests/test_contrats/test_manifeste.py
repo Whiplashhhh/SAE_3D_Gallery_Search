@@ -54,3 +54,32 @@ def test_chemin_absolu_refuse():
     donnees["vues"][0]["chemin"] = "/tmp/face.png"
     with pytest.raises(ValidationError):
         ManifesteRendu.model_validate(donnees)
+
+
+def test_nombre_vues_incoherent_refuse():
+    donnees = json.loads(SEED.read_text(encoding="utf-8"))
+    donnees["nombre_vues"] = 6 # alors que la liste en contient 4
+    with pytest.raises(ValidationError, match="nombre_vues"):
+        ManifesteRendu.model_validate(donnees)
+
+
+def test_id_modele_non_derive_du_sha256_refuse():
+    donnees = json.loads(SEED.read_text(encoding="utf-8"))
+    donnees["id_modele"] = "0000000000000000"
+    with pytest.raises(ValidationError, match="incoherent avec sha256"):
+        ManifesteRendu.model_validate(donnees)
+
+
+def test_noms_de_vues_en_doublon_refuse():
+    donnees = json.loads(SEED.read_text(encoding="utf-8"))
+    donnees["vues"][1]["nom"] = donnees["vues"][0]["nom"]
+    with pytest.raises(ValidationError, match="doublon"):
+        ManifesteRendu.model_validate(donnees)
+
+
+def test_liste_de_vues_vide_refuse():
+    donnees = json.loads(SEED.read_text(encoding="utf-8"))
+    donnees["vues"] = []
+    donnees["nombre_vues"] = 0
+    with pytest.raises(ValidationError):
+        ManifesteRendu.model_validate(donnees)
