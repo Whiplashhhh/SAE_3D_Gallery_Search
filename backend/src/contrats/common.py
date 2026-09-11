@@ -43,3 +43,14 @@ CheminRelatif = Annotated[
 NomVue = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,32}$")]
 """Nom court d'une prise de vue. Sert de nom de fichier donc ASCII minuscule,
 chiffres et underscore uniquement, sans accent ni espace."""
+
+# Textes
+
+TexteNonVide = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
+"""Texte libre généré par un modèle trim, jamais vide."""
+
+MotCle = Annotated[
+    str,
+    StringConstraints(strip_whitespace=True, to_lower=True, min_length=1, max_length=64),
+]
+"""Mot-clé de recherche : minuscules, sert de métadonnée pour ChromaDB."""
