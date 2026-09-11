@@ -8,6 +8,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict
 
+from contrats.common import NomVue, CheminRelatif, IdModele, Sha256
+
 
 class Vue(BaseModel):
     """Une prise de vue du modèle 3D."""
@@ -15,8 +17,8 @@ class Vue(BaseModel):
     # Contraintes de validation : on met le mode strict (les champs manquants ou erreurs de type ne passeront pas)
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    nom: str # le nom de la vue (ex : face)
-    chemin: str # le chemin relatif où la vue est stockée
+    nom: NomVue  # le nom de la vue (ex : face)
+    chemin: CheminRelatif  # le chemin relatif où la vue est stockée
     azimut: float
     elevation: float
 
@@ -26,13 +28,13 @@ class ManifesteRendu(BaseModel):
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    version: str # la version du manifeste
-    id_modele: str
-    fichier_source: str
-    sha256: str # identifiant sur 64 caractères hexa
+    version: str  # la version du manifeste
+    id_modele: IdModele
+    fichier_source: CheminRelatif
+    sha256: Sha256  # identifiant sur 64 caractères hexa
     date_rendu: datetime
     moteur: str
     resolution: tuple[int, int]
     nombre_vues: int
     vues: list[Vue]
-    vignette: str # chemin relatif pour l'affichage dans la bibliothèque
+    vignette: CheminRelatif  # chemin relatif pour l'affichage dans la bibliothèque
