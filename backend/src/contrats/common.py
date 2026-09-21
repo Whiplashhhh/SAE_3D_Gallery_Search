@@ -44,12 +44,7 @@ NomVue = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,32}$")]
 """Nom court d'une prise de vue. Sert de nom de fichier donc ASCII minuscule,
 chiffres et underscore uniquement, sans accent ni espace."""
 
-<<<<<<< HEAD
 
-CodeEvenement = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,64}$")]
-"""Code machine d'un evenement (ex: json_malforme_relance). Sert a compter et
-filtrer : il doit etre stable et reutilise a l'identique, pas reformule."""
-=======
 # Textes
 
 TexteNonVide = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
@@ -60,4 +55,8 @@ MotCle = Annotated[
     StringConstraints(strip_whitespace=True, to_lower=True, min_length=1, max_length=64),
 ]
 """Mot-clé de recherche : minuscules, sert de métadonnée pour ChromaDB."""
->>>>>>> 118511b2bddd52fe71d6533c0b2425fdec088b18
+
+
+CodeEvenement = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,64}$")]
+"""Code machine d'un evenement (ex: json_malforme_relance). Sert a compter et
+filtrer : il doit etre stable et reutilise a l'identique, pas reformule."""
