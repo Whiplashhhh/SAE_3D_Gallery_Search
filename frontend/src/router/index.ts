@@ -22,6 +22,11 @@ const router = createRouter({
       name: 'search',
       component: () => import('../views/SearchResultsView.vue'),
     },
+    {
+      path: '/ajouter',
+      name: 'add-model',
+      component: () => import('../views/AddModelView.vue'),
+    },
   ],
 })
 

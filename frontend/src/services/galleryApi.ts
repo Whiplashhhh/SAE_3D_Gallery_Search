@@ -94,6 +94,27 @@ async function request<T>(path: string): Promise<T> {
   return response.json() as Promise<T>
 }
 
+export async function uploadModel(file: File): Promise<ApiModelInfo> {
+  const formData = new FormData()
+  formData.append('fichier', file)
+
+  const response = await fetch('/api/models/upload', {
+    method: 'POST',
+    body: formData,
+  })
+  if (!response.ok) {
+    let detail = `L'API a répondu avec le statut ${response.status}.`
+    try {
+      const body = (await response.json()) as { detail?: string }
+      if (body.detail) detail = body.detail
+    } catch {
+      // Le message de statut reste utile si l'API ne renvoie pas de JSON.
+    }
+    throw new Error(detail)
+  }
+  return response.json() as Promise<ApiModelInfo>
+}
+
 export async function listModels(): Promise<GalleryModel[]> {
   const models = await request<ApiModelInfo[]>('/api/models')
   return models.map((model) => toModel(model))
