@@ -1,0 +1,132 @@
+.app-shell {
+  min-height: 100vh;
+  background: #e7e5df;
+  color: #242321;
+  transition: background-color 220ms ease, color 220ms ease;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.5rem 2rem 1.25rem;
+  border-bottom: 1px solid #242321;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #242321;
+  border-radius: 0;
+  background: #d2472d;
+  color: #fffaf2;
+  font-weight: 800;
+  transform: rotate(-5deg);
+}
+
+.brand h1 {
+  margin: 0;
+  color: #242321;
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.brand p {
+  margin: 0.15rem 0 0;
+  color: #6f6c65;
+  font-size: 0.8rem;
+}
+
+.nav a {
+  color: #242321;
+  text-decoration: none;
+  padding: 0.7rem 1rem;
+  border: 1px solid #242321;
+}
+
+.nav a:hover {
+  background: #d2472d;
+  color: #fffaf2;
+}
+
+main {
+  padding: 1rem 2rem 4rem;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid #242321;
+  border-radius: 0;
+  padding: 0.65rem 0.85rem;
+  background: transparent;
+  color: #242321;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 160ms linear, color 160ms linear;
+}
+
+.theme-toggle:hover {
+  background: #242321;
+  color: #f2f0ea;
+}
+
+.theme-toggle-icon {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.dark-theme {
+  background: #171716;
+  color: #f2f0ea;
+}
+
+.dark-theme .topbar {
+  border-color: #f2f0ea;
+}
+
+.dark-theme .brand-mark {
+  border-color: #f2f0ea;
+}
+
+.dark-theme .brand h1,
+.dark-theme .theme-toggle {
+  color: #f2f0ea;
+}
+
+.dark-theme .theme-toggle {
+  border-color: #f2f0ea;
+}
+
+.dark-theme .theme-toggle:hover {
+  background: #f2f0ea;
+  color: #171716;
+}
+
+.dark-theme .brand p {
+  color: #aaa69d;
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  main {
+    padding: 1.25rem 1rem 3rem;
+  }
+}
