@@ -43,3 +43,8 @@ CheminRelatif = Annotated[
 NomVue = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,32}$")]
 """Nom court d'une prise de vue. Sert de nom de fichier donc ASCII minuscule,
 chiffres et underscore uniquement, sans accent ni espace."""
+
+
+CodeEvenement = Annotated[str, StringConstraints(pattern=r"^[a-z0-9_]{1,64}$")]
+"""Code machine d'un evenement (ex: json_malforme_relance). Sert a compter et
+filtrer : il doit etre stable et reutilise a l'identique, pas reformule."""
