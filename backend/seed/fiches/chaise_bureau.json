@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "id_modele": "a3f1c2d4e5b60789",
+  "titre": "Chaise de bureau rouge a roulettes",
+  "description": "Chaise de bureau pivotante a assise rouge, dossier ajoure noir, pietement en etoile a cinq branches equipe de roulettes. Accoudoirs fixes. Verin de reglage en hauteur visible sous l'assise.",
+  "categorie": "mobilier",
+  "mots_cles": [
+    "chaise",
+    "bureau",
+    "roulettes",
+    "pivotante",
+    "assise rouge"
+  ],
+  "couleurs_dominantes": [
+    "rouge",
+    "noir"
+  ],
+  "etat": "intact",
+  "par_vue": [
+    {
+      "nom": "face",
+      "description": "Assise rouge et dossier ajoure noir vus de face, deux accoudoirs."
+    },
+    {
+      "nom": "droite",
+      "description": "Profil montrant le verin central et le pietement en etoile."
+    },
+    {
+      "nom": "arriere",
+      "description": "Dossier vu de dos, structure en plastique noir moule."
+    },
+    {
+      "nom": "gauche",
+      "description": "Profil gauche, une roulette partiellement masquee."
+    }
+  ],
+  "divergences_entre_vues": [],
+  "embedding": {
+    "modele": "embeddinggemma",
+    "dimension": 768,
+    "vecteur": [
+      0.0123,
+      -0.0456,
+      0.0789
+    ]
+  },
+  "duree_ms": {
+    "vlm": 8200,
+    "llm": 3100,
+    "embedding": 140
+  }
+}
