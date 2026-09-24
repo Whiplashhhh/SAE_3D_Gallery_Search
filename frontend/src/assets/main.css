@@ -425,6 +425,27 @@ h2 {
   font-size: 0.62rem;
 }
 
+.delete-model-button {
+  margin-top: 14px;
+  padding: 7px 10px;
+  border: 1px solid #e3b8bd;
+  border-radius: 5px;
+  color: #a2525b;
+  background: #fff7f7;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.delete-model-button:hover:not(:disabled) {
+  color: #fff;
+  background: #a2525b;
+}
+
+.delete-model-button:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
 mark {
   padding: 0 2px;
   border-radius: 3px;

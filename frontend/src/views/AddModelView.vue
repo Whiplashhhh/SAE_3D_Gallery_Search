@@ -29,7 +29,7 @@ async function submit() {
   success.value = ''
   try {
     const uploaded = await uploadModel(selectedFile.value)
-    success.value = `${uploaded.nom} a été ajouté. Il sera indexé après la génération de sa fiche par les Lots A et B.`
+    success.value = `${uploaded.nom} a été ajouté. Il apparaîtra dans le catalogue après la génération de sa fiche par les Lots A et B.`
     selectedFile.value = null
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : "Impossible d'ajouter le modèle."

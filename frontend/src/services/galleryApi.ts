@@ -115,6 +115,22 @@ export async function uploadModel(file: File): Promise<ApiModelInfo> {
   return response.json() as Promise<ApiModelInfo>
 }
 
+export async function deleteModel(id: string): Promise<void> {
+  const response = await fetch(`/api/modeles/${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    let detail = `L'API a répondu avec le statut ${response.status}.`
+    try {
+      const body = (await response.json()) as { detail?: string }
+      if (body.detail) detail = body.detail
+    } catch {
+      // Le message de statut reste utile si l'API ne renvoie pas de JSON.
+    }
+    throw new Error(detail)
+  }
+}
+
 export async function listModels(): Promise<GalleryModel[]> {
   const models = await request<ApiModelInfo[]>('/api/models')
   return models.map((model) => toModel(model))

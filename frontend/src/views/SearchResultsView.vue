@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { searchModels, type GalleryModel } from '../services/galleryApi'
+import { deleteModel, searchModels, type GalleryModel } from '../services/galleryApi'
 
 const route = useRoute()
 const router = useRouter()
@@ -9,6 +9,7 @@ const query = ref(typeof route.query.q === 'string' ? route.query.q : '')
 const results = ref<GalleryModel[]>([])
 const loading = ref(false)
 const error = ref('')
+const deletingId = ref('')
 
 function escapeHtml(value: string) {
   return value
@@ -56,6 +57,21 @@ watch(
 function search() {
   router.push({ name: 'search', query: { q: query.value.trim() } })
 }
+
+async function removeModel(model: GalleryModel) {
+  if (!window.confirm(`Supprimer « ${model.title} » ? Cette action est définitive.`)) return
+
+  deletingId.value = model.id
+  error.value = ''
+  try {
+    await deleteModel(model.id)
+    results.value = results.value.filter((item) => item.id !== model.id)
+  } catch (cause) {
+    error.value = cause instanceof Error ? cause.message : 'Impossible de supprimer le modèle.'
+  } finally {
+    deletingId.value = ''
+  }
+}
 </script>
 
 <template>
@@ -94,6 +110,14 @@ function search() {
               <div class="tags">
                 <span v-for="tag in product.tags" :key="tag" v-html="highlighted(tag)"></span>
               </div>
+              <button
+                class="delete-model-button"
+                type="button"
+                :disabled="deletingId === product.id"
+                @click="removeModel(product)"
+              >
+                {{ deletingId === product.id ? 'Suppression...' : 'Supprimer' }}
+              </button>
             </div>
             <span v-if="product.score !== undefined" class="match-score">
               {{ Math.round(product.score * 100) }}%
