@@ -1,3 +1,14 @@
 # IDE settings
 .idea
 .vscode
+
+
+.env
+
+# Donnees et artefacts d'execution
+backend/data/
+donnees/chroma/
+donnees/modeles/
+donnees/rendus/
+donnees/fiches/
+donnees/journal/
