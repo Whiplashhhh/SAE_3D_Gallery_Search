@@ -92,3 +92,15 @@ class FicheModele(BaseModel):
         if doublons:
             raise ValueError(f"mots_cles en doublon : {', '.join(doublons)}")
         return self
+
+    @model_validator(mode="after")
+    def _verifier_couleurs_dominantes_uniques(self) -> "FicheModele":
+        """Des couleurs dominantes dupliquées faussent le filtrage cote Lot C."""
+        doublons = set()
+        for nom in self.couleurs_dominantes:
+            if self.couleurs_dominantes.count(nom) > 1:
+                doublons.add(nom)
+
+        if doublons:
+            raise ValueError(f"couleurs_dominantes en doublon : {', '.join(doublons)}")
+        return self

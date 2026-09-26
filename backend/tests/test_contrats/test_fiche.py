@@ -51,6 +51,12 @@ def test_mots_cles_en_doublon_refuse():
     with pytest.raises(ValidationError, match="doublon"):
         FicheModele.model_validate(donnees)
 
+def test_couleurs_en_doublon_refuse():
+    donnees = charger()
+    donnees["couleurs_dominantes"] = ["rouge", "Rouge"]   # doublon apres normalisation
+    with pytest.raises(ValidationError, match="doublon"):
+        FicheModele.model_validate(donnees)
+
 
 def test_par_vue_vide_refuse():
     donnees = charger()
