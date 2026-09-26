@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from contrats.io import (
+from contrats import (
     ContratInvalide,
     charger_manifeste,
     deja_traite,

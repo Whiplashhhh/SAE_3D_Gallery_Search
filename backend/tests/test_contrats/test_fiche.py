@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from contrats.fiche import FicheModele
+from contrats import FicheModele
 
 SEED = Path(__file__).parents[2] / "seed" / "fiches" / "chaise_bureau.json"
 

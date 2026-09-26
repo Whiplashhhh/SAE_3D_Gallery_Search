@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from contrats.manifeste import ManifesteRendu
+from contrats import ManifesteRendu
 
 SEED = Path(__file__).parents[2] / "seed" / "manifestes" / "chaise_bureau.json"
 

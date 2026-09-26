@@ -7,7 +7,7 @@ Fichier de tests liés au journal
 from datetime import timezone
 from pathlib import Path
 
-from contrats.journal import EntreeJournal, journaliser, lire_journal
+from contrats import EntreeJournal, journaliser, lire_journal
 
 
 def test_ecrit_une_ligne_par_appel(tmp_path):

@@ -7,7 +7,7 @@ Fichier de tests liés aux types communs
 import pytest
 from pydantic import TypeAdapter, ValidationError
 
-from contrats.common import CheminRelatif, IdModele, NomVue, Sha256
+from contrats import CheminRelatif, IdModele, NomVue, Sha256
 
 SHA_VALIDE = "a3f1c2d4e5b607890f4d2c8a91b7e6350d24fa8817cc9b0e6a5d3f21c47b8e9d"
 
