@@ -2,6 +2,9 @@
 .idea
 .vscode
 
+
+.env
+
 # Donnees et artefacts d'execution
 backend/data/
 donnees/chroma/
