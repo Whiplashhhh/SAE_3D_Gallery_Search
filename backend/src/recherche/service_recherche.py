@@ -12,17 +12,26 @@ from .service_chroma import ServiceChroma
 
 
 class ServiceRecherche:
+    """Coordonne l'encodage d'une requête, ChromaDB et la résolution des fiches."""
+
     def __init__(
         self,
         chroma: ServiceChroma,
         embeddings: ServiceEmbedding,
         fiches: ChargeurFiches,
     ):
+        """Configure les dépendances utilisées pour chaque recherche."""
         self.chroma = chroma
         self.embeddings = embeddings
         self.fiches = fiches
 
     def rechercher(self, requete: RechercheRequete) -> RechercheReponse:
+        """Classe les fiches par similarité et construit la réponse de l'API.
+
+        Les filtres et le nombre maximal de résultats viennent de la requête.
+        Les résultats sans fiche correspondante et ceux sous le seuil éventuel
+        sont exclus ; le temps mesuré couvre l'ensemble du traitement.
+        """
         debut = perf_counter()
         resultats_chroma = self.chroma.rechercher(
             self.embeddings.encoder(requete.texte),
@@ -56,6 +65,7 @@ class ServiceRecherche:
 
     @staticmethod
     def _metadonnees(fiche: FicheModele) -> dict[str, str]:
+        """Adapte les champs de la fiche au format de métadonnées exposé par l'API."""
         couleurs = "|".join(fiche.couleurs_dominantes)
         mots_cles = "|".join(fiche.mots_cles)
         return {

@@ -10,6 +10,7 @@ const loading = ref(true)
 const error = ref('')
 
 onMounted(async () => {
+  // La page d'accueil n'affiche qu'un aperçu ; le catalogue complet reste accessible via la recherche.
   try {
     products.value = (await listModels()).slice(0, 3)
   } catch (cause) {
@@ -19,6 +20,7 @@ onMounted(async () => {
   }
 })
 
+/** Transmet la recherche à la page dédiée via le paramètre d'URL ``q``. */
 function search() {
   const value = query.value.trim()
   if (value) {

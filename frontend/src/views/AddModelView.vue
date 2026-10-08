@@ -11,6 +11,7 @@ const success = ref('')
 
 const fileLabel = computed(() => selectedFile.value?.name || 'Choisir un fichier 3D')
 
+/** Garde un seul fichier sélectionné et réinitialise les retours de l'envoi précédent. */
 function selectFile(event: Event) {
   const input = event.target as HTMLInputElement
   selectedFile.value = input.files?.[0] || null
@@ -18,6 +19,10 @@ function selectFile(event: Event) {
   success.value = ''
 }
 
+/**
+ * Envoie le modèle puis indique qu'il reste à traiter par les Lots A et B
+ * avant que le Lot C puisse l'indexer et le rendre recherchable.
+ */
 async function submit() {
   if (!selectedFile.value) {
     error.value = 'Sélectionnez un fichier .obj, .gltf ou .stl.'

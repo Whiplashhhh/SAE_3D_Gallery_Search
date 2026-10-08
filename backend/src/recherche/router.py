@@ -22,30 +22,37 @@ FORMATS_MODELES_ACCEPTES = {".obj", ".gltf", ".stl"}
 
 
 def get_chroma(request: Request) -> ServiceChroma:
+    """Fournit le dépôt Chroma enregistré dans l'état de l'application FastAPI."""
     return request.app.state.chroma
 
 
 def get_recherche(request: Request) -> ServiceRecherche:
+    """Fournit le service de recherche de l'application à l'injection FastAPI."""
     return request.app.state.recherche
 
 
 def get_models_dir(request: Request) -> Path:
+    """Fournit le dossier où les fichiers 3D téléversés sont conservés."""
     return request.app.state.models_dir
 
 
 def get_ollama(request: Request) -> ClientOllama:
+    """Fournit le client Ollama utilisé par le contrôle de santé."""
     return request.app.state.ollama
 
 
 def get_chargeur_fiches(request: Request) -> ChargeurFiches:
+    """Fournit le chargeur de fiches partagé par les routes du catalogue."""
     return request.app.state.chargeur_fiches
 
 
 def get_indexation(request: Request) -> ServiceIndexation:
+    """Fournit le service qui maintient l'index vectoriel."""
     return request.app.state.indexation
 
 
 def fiche_info(fiche: FicheModele) -> ModeleInfo:
+    """Convertit une fiche contractuelle en ressource de modèle pour l'API."""
     couleurs = "|".join(fiche.couleurs_dominantes)
     mots_cles = "|".join(fiche.mots_cles)
     return ModeleInfo(
@@ -65,6 +72,7 @@ def fiche_info(fiche: FicheModele) -> ModeleInfo:
 
 @router.post("/search", response_model=RechercheReponse)
 def search(requete: RechercheRequete, service: ServiceRecherche = Depends(get_recherche)):
+    """Exécute une recherche sémantique à partir d'une requête JSON."""
     return service.rechercher(requete)
 
 
@@ -74,6 +82,7 @@ def recherche_get(
     k: int = Query(default=12, ge=1, le=100),
     service: ServiceRecherche = Depends(get_recherche),
 ):
+    """Expose la recherche en GET avec ``q`` et ``k`` comme paramètres URL."""
     return service.rechercher(RechercheRequete(texte=q, top_k=k))
 
 
@@ -82,6 +91,11 @@ async def upload_model(
     fichier: UploadFile = File(...),
     models_dir: Path = Depends(get_models_dir),
 ):
+    """Enregistre un fichier 3D autorisé en attendant son traitement par les Lots A et B.
+
+    Refuse les extensions non prises en charge et les fichiers dépassant la
+    limite configurée. Le téléversement ne crée pas encore de fiche indexable.
+    """
     nom_original = Path(fichier.filename or "").name
     extension = Path(nom_original).suffix.lower()
     if not nom_original or extension not in FORMATS_MODELES_ACCEPTES:
@@ -115,11 +129,13 @@ async def upload_model(
 
 @router.get("/models", response_model=list[ModeleInfo])
 def list_models(chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+    """Retourne les fiches disponibles sous la forme attendue par le frontend."""
     return [fiche_info(fiche) for fiche in chargeur.charger()]
 
 
 @router.get("/models/{id}", response_model=ModeleInfo)
 def get_model(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+    """Retourne les informations d'un modèle, ou une erreur HTTP 404."""
     fiche = chargeur.obtenir(id)
     if fiche is None:
         raise HTTPException(status_code=404, detail="modèle introuvable")
@@ -128,6 +144,7 @@ def get_model(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
 
 @router.get("/modeles/{id}", response_model=ModeleInfo)
 def get_modele(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+    """Alias français de la route de consultation d'un modèle."""
     return get_model(id, chargeur)
 
 
@@ -138,6 +155,7 @@ def delete_modele(
     indexation: ServiceIndexation = Depends(get_indexation),
     models_dir: Path = Depends(get_models_dir),
 ):
+    """Supprime un modèle de l'index, de ses fiches puis des fichiers associés."""
     if chargeur.obtenir(id) is None:
         raise HTTPException(status_code=404, detail="modèle introuvable")
 
@@ -154,6 +172,7 @@ def stats(
     chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
     chroma: ServiceChroma = Depends(get_chroma),
 ):
+    """Retourne les compteurs du catalogue et de la collection vectorielle."""
     return StatsReponse(
         nb_modeles_indexes=chargeur.compter(),
         taille_collection=chroma.compter(),
@@ -163,6 +182,7 @@ def stats(
 
 @router.get("/health")
 def health():
+    """Fournit une sonde HTTP simple indiquant que l'API répond."""
     return {"status": "ok"}
 
 
@@ -172,6 +192,7 @@ def sante(
     chroma: ServiceChroma = Depends(get_chroma),
     ollama: ClientOllama = Depends(get_ollama),
 ):
+    """Expose l'état de joignabilité Ollama et le nombre de fiches/vecteurs."""
     return {
         "ollama_joignable": ollama.est_joignable(),
         "fiches_indexees": chargeur.compter(),

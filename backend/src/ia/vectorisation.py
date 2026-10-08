@@ -55,6 +55,12 @@ VOCABULAIRE = {
 
 
 def vectoriser_texte(texte: str, dimensions: int = 768) -> list[float]:
+    """Produit un vecteur local normalisé à partir des tokens du texte.
+
+    Cette représentation légère permet notamment de lancer la recherche sans
+    service d'embedding distant ; elle n'est pas un substitut aux embeddings
+    sémantiques du modèle Ollama configuré.
+    """
     if not texte:
         return [0.0] * dimensions
 

@@ -55,6 +55,7 @@ function getColorValue(color: string) {
   return colorValues[color.toLocaleLowerCase().trim()] || '#e5e8f7'
 }
 
+/** Uniformise accents et casse avant de comparer les termes de recherche. */
 function normalize(value: string) {
   return value
     .normalize('NFD')
@@ -62,6 +63,7 @@ function normalize(value: string) {
     .toLocaleLowerCase()
 }
 
+/** Adapte les noms du contrat français de l'API au modèle consommé par Vue. */
 function toModel(
   model: ApiModelInfo | SearchResponse['resultats'][number],
   score?: number,
@@ -86,6 +88,7 @@ function toModel(
   }
 }
 
+/** Centralise les GET JSON et transforme les réponses HTTP en erreurs lisibles. */
 async function request<T>(path: string): Promise<T> {
   const response = await fetch(path)
   if (!response.ok) {
@@ -94,6 +97,7 @@ async function request<T>(path: string): Promise<T> {
   return response.json() as Promise<T>
 }
 
+/** Envoie le fichier en multipart et privilégie le détail d'erreur renvoyé par l'API. */
 export async function uploadModel(file: File): Promise<ApiModelInfo> {
   const formData = new FormData()
   formData.append('fichier', file)
@@ -115,6 +119,7 @@ export async function uploadModel(file: File): Promise<ApiModelInfo> {
   return response.json() as Promise<ApiModelInfo>
 }
 
+/** Supprime un modèle via son identifiant encodé dans l'URL. */
 export async function deleteModel(id: string): Promise<void> {
   const response = await fetch(`/api/modeles/${encodeURIComponent(id)}`, {
     method: 'DELETE',
@@ -131,11 +136,17 @@ export async function deleteModel(id: string): Promise<void> {
   }
 }
 
+/** Charge le catalogue complet et convertit chaque réponse au format frontend. */
 export async function listModels(): Promise<GalleryModel[]> {
   const models = await request<ApiModelInfo[]>('/api/models')
   return models.map((model) => toModel(model))
 }
 
+/**
+ * Recherche dans l'API en conservant son classement par score.
+ * Un texte vide charge le catalogue ; sinon, un filtre local exige que chaque
+ * terme normalisé figure dans les champs affichables du modèle.
+ */
 export async function searchModels(query: string): Promise<GalleryModel[]> {
   if (!query.trim()) return listModels()
 
