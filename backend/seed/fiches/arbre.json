@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "id_modele": "d6a4f8b0c3e52791",
+  "titre": "Arbre feuillu au tronc brun",
+  "description": "Arbre feuillu compose d'un tronc brun vertical et d'une couronne dense de feuilles vertes reparties sur plusieurs branches.",
+  "categorie": "nature",
+  "mots_cles": [
+    "arbre",
+    "feuillu",
+    "tronc",
+    "branches",
+    "feuilles vertes"
+  ],
+  "couleurs_dominantes": [
+    "vert",
+    "brun"
+  ],
+  "etat": "intact",
+  "par_vue": [
+    {
+      "nom": "face",
+      "description": "Tronc brun au centre et couronne de feuilles vertes arrondie."
+    },
+    {
+      "nom": "droite",
+      "description": "Vue laterale montrant plusieurs branches qui s'etendent depuis le tronc."
+    },
+    {
+      "nom": "arriere",
+      "description": "Arriere de la couronne feuillue avec le tronc partiellement visible."
+    },
+    {
+      "nom": "gauche",
+      "description": "Vue laterale gauche avec une silhouette irreguliere de branches et de feuilles."
+    }
+  ],
+  "divergences_entre_vues": [],
+  "embedding": {
+    "modele": "embeddinggemma",
+    "dimension": 768,
+    "vecteur": [
+      0.0438,
+      -0.0112,
+      0.0275
+    ]
+  },
+  "duree_ms": {
+    "vlm": 7600,
+    "llm": 2750,
+    "embedding": 128
+  }
+}
