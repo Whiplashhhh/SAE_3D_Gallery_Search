@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "id_modele": "b4e2d6f8a1c30579",
+  "titre": "Maison individuelle avec toit a deux pans",
+  "description": "Maison individuelle a un etage, facade claire, toit a deux pans couvert de tuiles rouges et entree centrale sous un petit porche.",
+  "categorie": "habitat",
+  "mots_cles": [
+    "maison",
+    "habitat",
+    "toit",
+    "facade",
+    "porche"
+  ],
+  "couleurs_dominantes": [
+    "beige",
+    "rouge",
+    "blanc"
+  ],
+  "etat": "intact",
+  "par_vue": [
+    {
+      "nom": "face",
+      "description": "Facade principale claire avec une porte d'entree centrale, des fenetres et un toit a deux pans."
+    },
+    {
+      "nom": "droite",
+      "description": "Mur lateral beige avec deux fenetres et le debord du toit en tuiles rouges."
+    },
+    {
+      "nom": "arriere",
+      "description": "Facade arriere avec plusieurs fenetres et une porte donnant sur le jardin."
+    },
+    {
+      "nom": "gauche",
+      "description": "Mur lateral avec une fenetre et une cheminee visible au-dessus du toit."
+    }
+  ],
+  "divergences_entre_vues": [],
+  "embedding": {
+    "modele": "embeddinggemma",
+    "dimension": 768,
+    "vecteur": [
+      0.0214,
+      -0.0372,
+      0.0641
+    ]
+  },
+  "duree_ms": {
+    "vlm": 7900,
+    "llm": 2900,
+    "embedding": 135
+  }
+}

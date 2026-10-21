@@ -1,0 +1,53 @@
+{
+  "version": "1.0",
+  "id_modele": "c5f3e7a9b2d41680",
+  "titre": "Voiture compacte bleue",
+  "description": "Voiture compacte a cinq portes, carrosserie bleue, quatre roues avec jantes grises, phares avant transparents et vitres foncees.",
+  "categorie": "vehicule",
+  "mots_cles": [
+    "voiture",
+    "automobile",
+    "compacte",
+    "cinq portes",
+    "roues"
+  ],
+  "couleurs_dominantes": [
+    "bleu",
+    "gris",
+    "noir"
+  ],
+  "etat": "intact",
+  "par_vue": [
+    {
+      "nom": "face",
+      "description": "Vue avant avec deux phares, une calandre noire et un pare-brise incline."
+    },
+    {
+      "nom": "droite",
+      "description": "Profil droit montrant les deux portes laterales et les deux roues a jantes grises."
+    },
+    {
+      "nom": "arriere",
+      "description": "Vue arriere avec hayon, lunette foncee et deux feux rouges."
+    },
+    {
+      "nom": "gauche",
+      "description": "Profil gauche de la carrosserie bleue avec ses vitres foncees."
+    }
+  ],
+  "divergences_entre_vues": [],
+  "embedding": {
+    "modele": "embeddinggemma",
+    "dimension": 768,
+    "vecteur": [
+      -0.0186,
+      0.0523,
+      0.0097
+    ]
+  },
+  "duree_ms": {
+    "vlm": 8100,
+    "llm": 3050,
+    "embedding": 142
+  }
+}

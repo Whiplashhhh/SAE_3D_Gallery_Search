@@ -1,0 +1,52 @@
+{
+  "version": "1.0",
+  "id_modele": "e7b5c9a1d4f63802",
+  "titre": "Epee droite a garde et pommeau",
+  "description": "Epee droite composee d'une lame longue et etroite, d'une garde transversale, d'une poignee sombre et d'un pommeau arrondi.",
+  "categorie": "arme",
+  "mots_cles": [
+    "epee",
+    "lame",
+    "garde",
+    "poignee",
+    "pommeau"
+  ],
+  "couleurs_dominantes": [
+    "argent",
+    "noir"
+  ],
+  "etat": "intact",
+  "par_vue": [
+    {
+      "nom": "face",
+      "description": "Lame argentee droite avec une garde horizontale et une poignee noire."
+    },
+    {
+      "nom": "droite",
+      "description": "Profil fin de la lame et de la garde, avec le pommeau visible a l'extremite de la poignee."
+    },
+    {
+      "nom": "arriere",
+      "description": "Face opposee de la lame avec la garde transversale et le pommeau arrondi."
+    },
+    {
+      "nom": "gauche",
+      "description": "Vue laterale de l'epee montrant la longueur de la lame et la poignee sombre."
+    }
+  ],
+  "divergences_entre_vues": [],
+  "embedding": {
+    "modele": "embeddinggemma",
+    "dimension": 768,
+    "vecteur": [
+      -0.0317,
+      0.0684,
+      -0.0149
+    ]
+  },
+  "duree_ms": {
+    "vlm": 8300,
+    "llm": 3150,
+    "embedding": 138
+  }
+}

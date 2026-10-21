@@ -12,7 +12,7 @@ dependencies = [
     "python-multipart",
 ]
 
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
     "pytest",
     "ruff",
@@ -32,5 +32,5 @@ py-modules = ["config"]
 where = ["src"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
+pythonpath = [".", "src"]
 testpaths = ["tests"]
