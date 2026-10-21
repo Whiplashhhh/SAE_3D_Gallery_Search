@@ -161,3 +161,20 @@ Pour chacune : **ce qu'on a choisi** et **pourquoi**.
 ### D26. Pas de doublon dans les couleurs dominantes
 - **Choix** : comme pour les mots-clés, une couleur ne peut apparaître qu'une fois.
 - **Pourquoi** : les doublons fausseraient les filtres du lot C.
+
+---
+
+## 21-10-2026 — Lot B : description des vues
+
+### D27. `SortieVueVlm` remplace le nom `DescriptionVue` prévu pour le Lot B
+- **Choix** : la réponse du VLM pour une vue s'appelle `SortieVueVlm` et reste dans `semantique/`.
+- **Pourquoi** : `DescriptionVue` existe déjà dans `contrats` (vue décrite dans la fiche). La
+  sortie brute du VLM n'est pas un contrat entre lots.
+
+### D28. Qui refait une tentative en cas d'échec
+- **Choix** : `ClientOllama.chat()` renvoie le texte brut de la réponse et ne refait une tentative
+  qu'en cas de problème réseau ou de réponse vide. C'est le lot appelant qui valide le texte
+  avec son modèle Pydantic et qui redemande si la réponse est refusée. Les deux utilisent
+  `OLLAMA_TENTATIVES`.
+- **Pourquoi** : le client ne connaît pas les modèles des lots, et chaque cas d'échec n'est
+  traité qu'à un seul endroit.
