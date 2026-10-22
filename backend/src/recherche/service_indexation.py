@@ -1,4 +1,4 @@
-from ..contrats.schemas.fiche import FicheModele
+from contrats import FicheModele
 from .chargeur_fiches import ChargeurFiches
 from .service_chroma import ServiceChroma
 

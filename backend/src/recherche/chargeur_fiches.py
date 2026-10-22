@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from ..contrats.schemas.fiche import FicheModele
+from contrats import FicheModele
 
 
 class ChargeurFiches:

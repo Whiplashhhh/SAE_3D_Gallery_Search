@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
 
-from ..contrats.schemas.fiche import FicheModele
+from contrats import FicheModele
 from ..contrats.schemas.recherche import (
     ModeleInfo,
     RechercheReponse,

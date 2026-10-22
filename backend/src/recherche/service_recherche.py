@@ -1,6 +1,6 @@
 from time import perf_counter
 
-from ..contrats.schemas.fiche import FicheModele
+from contrats import FicheModele
 from ..contrats.schemas.recherche import (
     RechercheReponse,
     RechercheRequete,
