@@ -3,7 +3,7 @@ from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.config import Configuration
+from src.config import obtenir_config
 from src.ia.service_embedding import ServiceEmbedding
 from src.ia.vectorisation import vectoriser_texte
 from src.ollama.client import ClientOllama
@@ -18,11 +18,12 @@ DATA_DIR = BASE_DIR / "data"
 VECTOR_STORE_DIR = DATA_DIR / "vector_store"
 MODELS_DIR = DATA_DIR / "models"
 FICHES_DIR = BASE_DIR.parent / "donnees" / "fiches"
-configuration = Configuration()
+configuration = obtenir_config()
 ollama = ClientOllama(
-    configuration.ollama_base_url,
+    str(configuration.ollama_base_url),
     configuration.modele_embedding,
-    configuration.ollama_timeout_s,
+    timeout_s=configuration.ollama_timeout_s,
+    tentatives=configuration.ollama_tentatives,
 )
 
 app = FastAPI(

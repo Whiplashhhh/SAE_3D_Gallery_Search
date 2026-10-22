@@ -7,15 +7,19 @@ LOGGER = logging.getLogger(__name__)
 
 
 class ServiceEmbedding:
+    """Fournit un encodeur d'embedding distant avec repli local en cas d'échec."""
+
     def __init__(
         self,
         encodeur: Callable[[str], list[float]],
         encodeur_distant: Callable[[str], list[float]] | None = None,
     ):
+        """Enregistre l'encodeur local obligatoire et l'encodeur distant facultatif."""
         self._encodeur = encodeur
         self._encodeur_distant = encodeur_distant
 
     def encoder(self, texte: str) -> list[float]:
+        """Encode le texte à distance, puis localement si Ollama échoue."""
         if self._encodeur_distant is not None:
             try:
                 return self._encodeur_distant(texte)

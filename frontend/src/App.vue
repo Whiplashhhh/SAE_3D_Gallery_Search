@@ -5,6 +5,7 @@ import { RouterLink, RouterView, useRouter } from 'vue-router'
 const router = useRouter()
 const query = ref('')
 
+/** Ouvre les résultats seulement si la saisie contient un terme exploitable. */
 function search() {
   const value = query.value.trim()
   if (value) {

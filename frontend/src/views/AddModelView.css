@@ -51,12 +51,20 @@
   background: #f8f9ff;
   cursor: pointer;
   text-align: center;
-  transition: border-color 160ms ease, background-color 160ms ease;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease;
 }
 
 .drop-zone:hover {
   border-color: #536cdb;
   background: #f2f4ff;
+}
+
+.drop-zone-active {
+  border-color: #536cdb;
+  background: #edf0ff;
+  box-shadow: 0 0 0 3px #536cdb1a;
 }
 
 .drop-zone input {
@@ -128,6 +136,47 @@
   background: #effaf3;
 }
 
+.preview-section {
+  margin-top: 30px;
+}
+
+.preview-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 13px;
+}
+
+.preview-heading .eyebrow {
+  margin-bottom: 7px;
+}
+
+.preview-heading h2 {
+  max-width: 440px;
+  overflow: hidden;
+  color: #30374a;
+  font-size: 1.1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-heading > span,
+.resource-note {
+  color: #858a94;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.preview-heading > span {
+  max-width: 230px;
+  text-align: right;
+}
+
+.resource-note {
+  margin-top: 9px;
+}
+
 .pipeline-note {
   display: flex;
   gap: 12px;
@@ -157,5 +206,15 @@
 
   .add-model-card {
     padding: 28px 20px;
+  }
+
+  .preview-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .preview-heading > span {
+    max-width: none;
+    text-align: left;
   }
 }

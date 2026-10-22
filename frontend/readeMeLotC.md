@@ -225,3 +225,19 @@ En production, il faudra également :
 - sauvegarder `backend/data/vector_store/` ;
 - sauvegarder `backend/data/models/` ;
 - sauvegarder `donnees/fiches/`.
+
+## 5. Prévisualisation d'un modèle importé
+
+La page `/ajouter` propose une prévisualisation interactive locale des fichiers OBJ, GLTF et STL
+avec Three.js. La rotation se fait par glisser-déposer et le zoom avec la molette. Le modèle reste
+visible dans la page si son envoi échoue ; aucun accès public au fichier stocké sur le serveur n'est
+nécessaire pour cette prévisualisation.
+
+Les fichiers OBJ et GLTF peuvent dépendre d'autres fichiers (par exemple un `.mtl`, un `.bin` ou des
+textures). Pour les inclure dans l'aperçu, sélectionnez ou déposez-les en même temps que le modèle.
+À ce stade, seul le fichier 3D principal est envoyé à l'API ; les ressources annexes ne sont pas
+stockées avec lui.
+
+Cette prévisualisation est indépendante du traitement des Lots A et B : le Lot C ne reçoit pas
+encore leur état de progression ou d'erreur. Le visualiseur est donc un moyen pour l'utilisateur
+d'inspecter le fichier importé, pas un indicateur de réussite ou d'échec de l'indexation.

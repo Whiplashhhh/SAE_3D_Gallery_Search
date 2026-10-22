@@ -11,7 +11,9 @@ const loading = ref(false)
 const error = ref('')
 const deletingId = ref('')
 
+/** Échappe les caractères HTML spéciaux avant tout affichage via v-html. */
 function escapeHtml(value: string) {
+  // La valeur est ensuite rendue avec v-html : échapper les deux côtés empêche l'injection HTML.
   return value
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
@@ -20,6 +22,11 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#039;')
 }
 
+/**
+ * Échappe d'abord le contenu, puis les termes avant de les utiliser comme regex.
+ * Le surlignage ne peut ainsi ni interpréter du HTML fourni par l'API ni des
+ * caractères de recherche comme des opérateurs d'expression régulière.
+ */
 function highlighted(value: string) {
   const escapedValue = escapeHtml(value)
   const terms = query.value
@@ -32,6 +39,7 @@ function highlighted(value: string) {
   return escapedValue.replace(new RegExp(`(${terms.join('|')})`, 'gi'), '<mark>$1</mark>')
 }
 
+/** Gère le cycle chargement/résultats/erreur pour chaque requête API. */
 async function loadResults(value: string) {
   loading.value = true
   error.value = ''
@@ -48,16 +56,19 @@ async function loadResults(value: string) {
 watch(
   () => route.query.q,
   (value) => {
+    // L'URL est la source de vérité : navigation, rechargement et recherche restent synchronisés.
     query.value = typeof value === 'string' ? value : ''
     void loadResults(query.value)
   },
   { immediate: true },
 )
 
+/** Met à jour l'URL ; le watcher déclenche ensuite le chargement correspondant. */
 function search() {
   router.push({ name: 'search', query: { q: query.value.trim() } })
 }
 
+/** Demande confirmation, supprime côté serveur puis retire la carte de la vue. */
 async function removeModel(model: GalleryModel) {
   if (!window.confirm(`Supprimer « ${model.title} » ? Cette action est définitive.`)) return
 
