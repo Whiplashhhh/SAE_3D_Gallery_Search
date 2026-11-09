@@ -1,0 +1,32 @@
+site_name: 3D Gallery Search
+repo_url: https://github.com/Whiplashhhh/SAE_3D_Gallery_Search
+docs_dir: docs
+
+theme:
+  name: material        # ou "readthedocs" (inclus dans MkDocs, c'est le skin cité dans le cours)
+  language: fr
+
+nav:
+  - Accueil: index.md
+  - Documentation technique:
+      - Architecture: technique/architecture.md
+      - Décisions: DECISION.md
+      - Installation & déploiement: technique/deploiement.md
+  - Documentation utilisateur:
+      - Guide d'utilisation: utilisateur/guide.md
+      - FAQ: utilisateur/faq.md
+  - Suivi des sprints:
+      - Sprint 0: monitoring/sprint-00.md
+      - Sprint 1: monitoring/sprint-01.md
+      - Sprint 2: monitoring/sprint-02.md
+      - Sprint 3: monitoring/sprint-03.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.superfences:      # pour les diagrammes Mermaid (architecture, UML)
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

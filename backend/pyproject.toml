@@ -17,6 +17,7 @@ dev = [
     "pytest",
     "ruff",
 ]
+docs = ["mkdocs-material", "mkdocstrings[python]"]
 
 [build-system]
 requires = [
