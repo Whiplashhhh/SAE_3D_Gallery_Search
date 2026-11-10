@@ -3,7 +3,7 @@ repo_url: https://github.com/Whiplashhhh/SAE_3D_Gallery_Search
 docs_dir: docs
 
 theme:
-  name: material        # ou "readthedocs" (inclus dans MkDocs, c'est le skin cité dans le cours)
+  name: material
   language: fr
 
 nav:
@@ -15,6 +15,14 @@ nav:
   - Documentation utilisateur:
       - Guide d'utilisation: utilisateur/guide.md
       - FAQ: utilisateur/faq.md
+  - Référence du code:
+      - reference/index.md
+      - Configuration: reference/config.md
+      - Contrats: reference/contrats.md
+      - Sémantique (Lot B): reference/semantique.md
+      - IA: reference/ia.md
+      - Ollama: reference/ollama.md
+      - Recherche (Lot C): reference/recherche.md
   - Suivi des sprints:
       - Sprint 0: monitoring/sprint-00.md
       - Sprint 1: monitoring/sprint-01.md
@@ -30,3 +38,16 @@ markdown_extensions:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [backend/src]
+          options:
+            show_source: true
+            show_root_heading: false
+            heading_level: 3
+            members_order: source
+            show_if_no_docstring: true
