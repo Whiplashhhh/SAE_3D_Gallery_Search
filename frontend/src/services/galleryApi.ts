@@ -12,10 +12,27 @@ export interface GalleryModel {
   emoji: string
 }
 
+export interface ModelViewDescription {
+  nom: string
+  description: string
+}
+
+export interface GalleryModelDetail extends GalleryModel {
+  par_vue: ModelViewDescription[]
+  divergences_entre_vues: string[]
+  fichier_3d_disponible: boolean
+}
+
 interface ApiModelInfo {
   id: string
   nom: string
   metadonnees: Record<string, string>
+}
+
+interface ApiModelDetail extends ApiModelInfo {
+  par_vue: ModelViewDescription[]
+  divergences_entre_vues: string[]
+  fichier_3d_disponible: boolean
 }
 
 interface SearchResponse {
@@ -140,6 +157,29 @@ export async function deleteModel(id: string): Promise<void> {
 export async function listModels(): Promise<GalleryModel[]> {
   const models = await request<ApiModelInfo[]>('/api/models')
   return models.map((model) => toModel(model))
+}
+
+/** Charge une fiche complète, sans exposer son vecteur d'embedding. */
+export async function getModel(id: string): Promise<GalleryModelDetail> {
+  const detail = await request<ApiModelDetail>(`/api/modeles/${encodeURIComponent(id)}`)
+  return {
+    ...toModel(detail),
+    par_vue: detail.par_vue,
+    divergences_entre_vues: detail.divergences_entre_vues,
+    fichier_3d_disponible: detail.fichier_3d_disponible,
+  }
+}
+
+/** Récupère le fichier source pour l'afficher dans ModelViewer. */
+export async function getModelFile(id: string): Promise<File> {
+  const response = await fetch(`/api/modeles/${encodeURIComponent(id)}/fichier`)
+  if (!response.ok) {
+    throw new Error(`L'API a répondu avec le statut ${response.status}.`)
+  }
+
+  const disposition = response.headers.get('content-disposition') || ''
+  const filename = disposition.match(/filename="([^"]+)"/i)?.[1] || `${id}.obj`
+  return new File([await response.blob()], filename)
 }
 
 /**

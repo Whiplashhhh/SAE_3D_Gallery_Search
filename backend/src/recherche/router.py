@@ -2,9 +2,11 @@ from pathlib import Path
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
+from fastapi.responses import FileResponse
 
 from contrats import FicheModele
 from ..contrats.schemas.recherche import (
+    ModeleDetail,
     ModeleInfo,
     RechercheReponse,
     RechercheRequete,
@@ -44,6 +46,15 @@ def get_ollama(request: Request) -> ClientOllama:
 def get_chargeur_fiches(request: Request) -> ChargeurFiches:
     """Fournit le chargeur de fiches partagé par les routes du catalogue."""
     return request.app.state.chargeur_fiches
+
+
+def trouver_fichier_modele(identifiant: str, models_dir: Path) -> Path | None:
+    """Retourne le fichier source du modèle s'il est présent et dans un format pris en charge."""
+    for extension in FORMATS_MODELES_ACCEPTES:
+        fichier = models_dir / f"{identifiant}{extension}"
+        if fichier.is_file():
+            return fichier
+    return None
 
 
 def get_indexation(request: Request) -> ServiceIndexation:
@@ -142,10 +153,39 @@ def get_model(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
     return fiche_info(fiche)
 
 
-@router.get("/modeles/{id}", response_model=ModeleInfo)
-def get_modele(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+@router.get("/modeles/{id}", response_model=ModeleDetail)
+def get_modele(
+    id: str,
+    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
+    models_dir: Path = Depends(get_models_dir),
+):
     """Alias français de la route de consultation d'un modèle."""
-    return get_model(id, chargeur)
+    fiche = chargeur.obtenir(id)
+    if fiche is None:
+        raise HTTPException(status_code=404, detail="modèle introuvable")
+
+    return ModeleDetail(
+        **fiche_info(fiche).model_dump(),
+        par_vue=[vue.model_dump() for vue in fiche.par_vue],
+        divergences_entre_vues=fiche.divergences_entre_vues,
+        fichier_3d_disponible=trouver_fichier_modele(id, models_dir) is not None,
+    )
+
+
+@router.get("/modeles/{id}/fichier")
+def get_fichier_modele(
+    id: str,
+    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
+    models_dir: Path = Depends(get_models_dir),
+):
+    """Retourne le fichier source d'un modèle lorsqu'il est disponible."""
+    if chargeur.obtenir(id) is None:
+        raise HTTPException(status_code=404, detail="modèle introuvable")
+
+    fichier = trouver_fichier_modele(id, models_dir)
+    if fichier is None:
+        raise HTTPException(status_code=404, detail="fichier 3D indisponible")
+    return FileResponse(fichier, filename=fichier.name)
 
 
 @router.delete("/modeles/{id}", status_code=204)

@@ -23,6 +23,15 @@ class ModeleInfo(BaseModel):
     nom: str
     metadonnees: dict
 
+class DescriptionVueInfo(BaseModel):
+    nom: str
+    description: str
+
+class ModeleDetail(ModeleInfo):
+    par_vue: list[DescriptionVueInfo]
+    divergences_entre_vues: list[str]
+    fichier_3d_disponible: bool
+
 class StatsReponse(BaseModel):
     nb_modeles_indexes: int
     taille_collection: int
