@@ -1,0 +1,16 @@
+.result-model-link {
+  display: block;
+  color: inherit;
+}
+
+.result-model-link:hover .product-info h2 {
+  color: #536cdb;
+}
+
+.result-card-actions {
+  padding: 0 17px 17px;
+}
+
+.result-card-actions .delete-model-button {
+  margin-top: 0;
+}

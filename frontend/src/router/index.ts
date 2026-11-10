@@ -23,6 +23,11 @@ const router = createRouter({
       component: () => import('../views/SearchResultsView.vue'),
     },
     {
+      path: '/modeles/:id',
+      name: 'model-detail',
+      component: () => import('../views/ModelDetailView.vue'),
+    },
+    {
       path: '/ajouter',
       name: 'add-model',
       component: () => import('../views/AddModelView.vue'),
