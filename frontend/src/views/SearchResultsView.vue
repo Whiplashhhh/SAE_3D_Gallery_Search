@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { deleteModel, searchModels, type GalleryModel } from '../services/galleryApi'
+import './SearchResultsView.css'
 
 const route = useRoute()
 const router = useRouter()
@@ -110,29 +111,36 @@ async function removeModel(model: GalleryModel) {
       <p v-if="error" class="catalogue-status catalogue-error">{{ error }}</p>
       <div v-else-if="!loading && results.length" class="product-grid results-grid">
         <article v-for="product in results" :key="product.id" class="product-card">
-          <div class="product-image" :style="{ '--product-color': product.color }">
-            <span>{{ product.emoji }}</span>
-            <small>{{ product.category }}</small>
-          </div>
-          <div class="product-info">
-            <div>
-              <h2 v-html="highlighted(product.title)"></h2>
-              <p v-html="highlighted(product.description)"></p>
-              <div class="tags">
-                <span v-for="tag in product.tags" :key="tag" v-html="highlighted(tag)"></span>
-              </div>
-              <button
-                class="delete-model-button"
-                type="button"
-                :disabled="deletingId === product.id"
-                @click="removeModel(product)"
-              >
-                {{ deletingId === product.id ? 'Suppression...' : 'Supprimer' }}
-              </button>
+          <RouterLink
+            class="result-model-link"
+            :to="{ name: 'model-detail', params: { id: product.id } }"
+          >
+            <div class="product-image" :style="{ '--product-color': product.color }">
+              <span>{{ product.emoji }}</span>
+              <small>{{ product.category }}</small>
             </div>
-            <span v-if="product.score !== undefined" class="match-score">
-              {{ Math.round(product.score * 100) }}%
-            </span>
+            <div class="product-info">
+              <div>
+                <h2 v-html="highlighted(product.title)"></h2>
+                <p v-html="highlighted(product.description)"></p>
+                <div class="tags">
+                  <span v-for="tag in product.tags" :key="tag" v-html="highlighted(tag)"></span>
+                </div>
+              </div>
+              <span v-if="product.score !== undefined" class="match-score">
+                {{ Math.round(product.score * 100) }}%
+              </span>
+            </div>
+          </RouterLink>
+          <div class="result-card-actions">
+            <button
+              class="delete-model-button"
+              type="button"
+              :disabled="deletingId === product.id"
+              @click="removeModel(product)"
+            >
+              {{ deletingId === product.id ? 'Suppression...' : 'Supprimer' }}
+            </button>
           </div>
         </article>
       </div>
