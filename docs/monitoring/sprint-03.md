@@ -60,6 +60,17 @@ et aucun rendu. Aucun commit depuis le 22/10 (plus de deux semaines).
 **US 3.6** — *Reporté du sprint 2.* En tant qu'utilisateur, en cliquant sur un résultat de recherche, j'arrive sur une page détail (`/modeles/:id`) qui affiche le nom, la description globale, la description de chaque vue (`par_vue`) et les divergences, à partir de `GET /api/modeles/{id}`, avec l'aperçu `ModelViewer` quand le fichier 3D est disponible.
 *Vérification* : `cd frontend && npm run build` passe sans erreur, et la page s'affiche pour les 5 fiches de seed (vérification manuelle, capture jointe à la PR).
 
+**État au 12/11/2026** : US 3.6 est réalisée sur la branche `pull_request`. Le commit `63c63f6`
+ajoute la page détail et ses appels API; il a été fusionné par le commit `150a379` (PR #9), puis
+intégré à la branche par `c738624` (PR #10). La page `/modeles/:id` affiche le titre, la
+description, les descriptions par vue et les divergences. L'aperçu 3D est conditionnel à la
+présence du fichier source.
+
+Les commits de cette branche par rapport à `origin/main` sont `63c63f6`, `150a379` et `c738624`.
+La pile Docker/Ollama et la préparation des fiches de démonstration sont ajoutées séparément dans
+le commit `1312908`. Les mises à jour documentaires de cette branche restent isolées dans un commit
+distinct.
+
 ## Livrables
 
 - Routes en double retirées, `README.md` à jour.
