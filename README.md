@@ -355,7 +355,23 @@ Les noms de modèles doivent pouvoir être changés **sans toucher au code**.
 
 ## 7. Installation et lancement
 
-à définir
+Docker Compose démarre l'API, la galerie Vue et une instance locale d'Ollama.
+Au premier lancement, Docker télécharge Ollama et le modèle `embeddinggemma` ;
+ce téléchargement peut prendre quelques minutes.
+
+Depuis la racine du dépôt :
+
+```powershell
+docker compose up --build
+```
+
+La galerie est disponible sur <http://localhost:8080> et la documentation OpenAPI sur
+<http://localhost:8000/docs>. Les fiches de démonstration sont préparées avec
+des embeddings Ollama au démarrage. Pour arrêter les services :
+
+```powershell
+docker compose down
+```
 
 ---
 

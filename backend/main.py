@@ -17,7 +17,7 @@ BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 VECTOR_STORE_DIR = DATA_DIR / "vector_store"
 MODELS_DIR = DATA_DIR / "models"
-FICHES_DIR = BASE_DIR.parent / "donnees" / "fiches"
+FICHES_DIR = DATA_DIR / "fiches"
 configuration = obtenir_config()
 ollama = ClientOllama(
     str(configuration.ollama_base_url),
