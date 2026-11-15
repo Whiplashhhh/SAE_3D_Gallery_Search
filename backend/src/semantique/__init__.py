@@ -5,11 +5,15 @@ Lot B : description sémantique des modèles 3D
 
 """
 
-from semantique.modeles import SortieVueVlm
+from semantique.fusion import FusionImpossible, fusionner_descriptions
+from semantique.modeles import SortieFusionLlm, SortieVueVlm
 from semantique.vue import DescriptionImpossible, decrire_vue
 
 __all__ = [
     "DescriptionImpossible",
+    "FusionImpossible",
+    "SortieFusionLlm",
     "SortieVueVlm",
     "decrire_vue",
+    "fusionner_descriptions",
 ]
