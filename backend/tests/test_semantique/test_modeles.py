@@ -9,6 +9,7 @@ import pytest
 from pydantic import ValidationError
 
 from semantique import SortieVueVlm
+from semantique.modeles import SortieFusionLlm
 
 PROMPT = Path(__file__).parents[2] / "src" / "semantique" / "prompts" / "vue.md"
 
@@ -51,3 +52,42 @@ def test_prompt_existe():
     """Le prompt doit exister et imposer de ne décrire que le visible"""
     texte = PROMPT.read_text(encoding="utf-8")
     assert "uniquement ce qui est visible" in texte
+
+
+# Sortie du LLM après fusion des vues
+
+def exemple_fusion():
+    return {
+        "description": "Chaise de bureau rouge à roulettes, avec un dossier haut.",
+        "divergences_entre_vues": ["La vue de face montre 4 roulettes, la vue de dessus 5."],
+    }
+
+
+def test_fusion_exemple_valide_accepte():
+    sortie = SortieFusionLlm.model_validate(exemple_fusion())
+    assert len(sortie.divergences_entre_vues) == 1
+
+
+def test_fusion_sans_divergence_acceptee():
+    donnees = exemple_fusion()
+    donnees["divergences_entre_vues"] = []
+    assert SortieFusionLlm.model_validate(donnees).divergences_entre_vues == []
+
+
+def test_fusion_schema_interdit_les_champs_supplementaires():
+    assert SortieFusionLlm.model_json_schema()["additionalProperties"] is False
+
+
+def test_fusion_champ_inconnu_refuse():
+    donnees = exemple_fusion()
+    donnees["titre"] = "Chaise"
+    with pytest.raises(ValidationError):
+        SortieFusionLlm.model_validate(donnees)
+
+
+@pytest.mark.parametrize("champ", ["description", "divergences_entre_vues"])
+def test_fusion_champ_manquant_refuse(champ):
+    donnees = exemple_fusion()
+    del donnees[champ]
+    with pytest.raises(ValidationError):
+        SortieFusionLlm.model_validate(donnees)

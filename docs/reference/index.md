@@ -8,7 +8,7 @@ Pour la mettre à jour, il suffit de modifier les docstrings dans le code.
 |---|---|
 | [Configuration](config.md) | Paramètres lus depuis l'environnement et le `.env` |
 | [Contrats](contrats.md) | Formats JSON échangés entre les lots A, B et C |
-| [Sémantique (Lot B)](semantique.md) | Description des vues par le VLM |
+| [Sémantique (Lot B)](semantique.md) | Description des vues par le VLM et fusion par le LLM |
 | [IA](ia.md) | Vectorisation et embeddings |
 | [Ollama](ollama.md) | Client HTTP vers Ollama |
 | [Recherche (Lot C)](recherche.md) | Indexation ChromaDB, recherche et API |

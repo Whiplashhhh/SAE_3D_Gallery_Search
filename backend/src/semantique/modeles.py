@@ -1,11 +1,11 @@
 """
 @author:  WV
 
-Format de la réponse du VLM pour une seule vue (Lot B)
+Format des réponses du VLM (une vue) et du LLM (fusion des vues) pour le Lot B
 
-Ce n'est pas un contrat entre lots : c'est la sortie brute du VLM, avant la
-fusion par le LLM. Le schéma JSON de ce modèle est passé à Ollama pour forcer
-le VLM à répondre dans ce format.
+Ce ne sont pas des contrats entre lots : ce sont les sorties brutes des
+modèles. Le schéma JSON de chaque modèle est passé à Ollama pour forcer la
+réponse dans ce format.
 """
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -23,3 +23,13 @@ class SortieVueVlm(BaseModel):
     elements_visibles: list[MotCle] = Field(min_length=1, max_length=20)  # ex : dossier, roulette
     couleurs: list[MotCle] = Field(max_length=10)
     materiaux: list[MotCle] = Field(max_length=10)
+
+
+class SortieFusionLlm(BaseModel):
+    """Ce que le LLM renvoie après avoir fusionné les descriptions de toutes les vues."""
+
+    # Mode strict, comme SortieVueVlm
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    description: TexteNonVide  # description globale de l'objet, toutes vues confondues
+    divergences_entre_vues: list[TexteNonVide]  # contradictions entre vues, liste vide si aucune
