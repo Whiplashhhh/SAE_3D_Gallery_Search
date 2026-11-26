@@ -9,6 +9,7 @@ export interface GalleryModel {
   dateCreated: string
   tags: string[]
   score?: number
+  excerpt?: string
   emoji: string
 }
 
@@ -39,6 +40,7 @@ interface SearchResponse {
   resultats: Array<{
     id: string
     score: number
+    extrait: string
     metadonnees: Record<string, string>
   }>
   nb_total: number
@@ -101,6 +103,7 @@ function toModel(
       (tag): tag is string => Boolean(tag),
     ),
     score,
+    excerpt: 'extrait' in model ? model.extrait : undefined,
     emoji: getEmoji(category),
   }
 }

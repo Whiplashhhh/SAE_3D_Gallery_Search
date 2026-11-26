@@ -19,11 +19,7 @@ import {
   type Material,
   type Object3D,
 } from 'three'
-import { MTLLoader } from 'three/addons/loaders/MTLLoader.js'
-import { OBJLoader } from 'three/addons/loaders/OBJLoader.js'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-import { STLLoader } from 'three/addons/loaders/STLLoader.js'
 import './ModelViewer.css'
 
 const props = defineProps<{
@@ -98,6 +94,7 @@ async function loadModel(file: File, resources: File[]): Promise<Object3D> {
   const manager = createLoadingManager([file, ...resources])
 
   if (extension === 'gltf') {
+    const { GLTFLoader } = await import('three/addons/loaders/GLTFLoader.js')
     const loader = new GLTFLoader(manager)
     const data = await file.arrayBuffer()
     return new Promise((resolve, reject) => {
@@ -110,8 +107,10 @@ async function loadModel(file: File, resources: File[]): Promise<Object3D> {
     const materialFile = resources.find((resource) =>
       resource.name.toLocaleLowerCase().endsWith('.mtl'),
     )
+    const { OBJLoader } = await import('three/addons/loaders/OBJLoader.js')
     const loader = new OBJLoader(manager)
     if (materialFile) {
+      const { MTLLoader } = await import('three/addons/loaders/MTLLoader.js')
       const materialLoader = new MTLLoader(manager)
       loader.setMaterials(materialLoader.parse(await materialFile.text(), ''))
     }
@@ -119,6 +118,7 @@ async function loadModel(file: File, resources: File[]): Promise<Object3D> {
   }
 
   if (extension === 'stl') {
+    const { STLLoader } = await import('three/addons/loaders/STLLoader.js')
     const geometry = new STLLoader(manager).parse(await file.arrayBuffer())
     geometry.computeVertexNormals()
     const mesh = new Mesh(geometry, new MeshStandardMaterial({ color: 0x8795d8 }))

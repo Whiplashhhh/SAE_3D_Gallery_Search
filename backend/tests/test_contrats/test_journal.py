@@ -4,10 +4,9 @@
 Fichier de tests liés au journal
 """
 
-from datetime import timezone
-from pathlib import Path
+from datetime import UTC
 
-from contrats import EntreeJournal, journaliser, lire_journal
+from contrats import journaliser, lire_journal
 
 
 def test_ecrit_une_ligne_par_appel(tmp_path):
@@ -37,7 +36,7 @@ def test_conserve_les_champs(tmp_path):
 def test_horodatage_automatique(tmp_path):
     chemin = tmp_path / "indexation.jsonl"
     journaliser(chemin, "A", "demarrage", "ok")
-    assert lire_journal(chemin)[0].horodatage.tzinfo == timezone.utc
+    assert lire_journal(chemin)[0].horodatage.tzinfo == UTC
 
 
 def test_id_modele_facultatif(tmp_path):

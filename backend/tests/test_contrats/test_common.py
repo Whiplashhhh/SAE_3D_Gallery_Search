@@ -64,7 +64,7 @@ def test_id_modele_refuse(valeur):
 @pytest.mark.parametrize(
     "valeur",
     [
-        "donnees/rendus/a3f1c2d4e5b60789/face.png",  #
+        "donnees/rendus/a3f1c2d4e5b60789/face.png",
         "chaise.obj",
         "seed/fiches/maison_ruine.json",
     ],

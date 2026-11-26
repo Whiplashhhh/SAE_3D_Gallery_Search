@@ -47,35 +47,31 @@ VERSION_CONTRATS = "1.0"
 A incrementer si un changement casse la compatibilité avec les fichiers déjà
 produits."""
 
-__all__ = [ # définit le 'import *'
-    # Modèles
-    "ManifesteRendu",
-    "Vue",
-    "FicheModele",
-    "DescriptionVue",
-    "Embedding",
-    "DureeMs",
-    "EntreeJournal",
-    # Types et énumerations
-    "Sha256",
-    "IdModele",
+__all__ = [
+    "VERSION_CONTRATS",
     "CheminRelatif",
-    "NomVue",
-    "MotCle",
-    "TexteNonVide",
     "CodeEvenement",
+    "ContratInvalide",
+    "DescriptionVue",
+    "DureeMs",
+    "Embedding",
+    "EntreeJournal",
     "EtatModele",
+    "FicheModele",
+    "IdModele",
     "Lot",
+    "ManifesteRendu",
+    "MotCle",
     "Niveau",
-    # Lecture / écriture
+    "NomVue",
+    "Sha256",
+    "TexteNonVide",
+    "Vue",
     "charger",
-    "charger_manifeste",
     "charger_fiche",
-    "ecrire_json",
+    "charger_manifeste",
     "deja_traite",
+    "ecrire_json",
     "journaliser",
     "lire_journal",
-    "ContratInvalide",
-    # Divers
-    "VERSION_CONTRATS",
 ]

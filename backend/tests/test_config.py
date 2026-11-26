@@ -33,8 +33,8 @@ def test_config_minimale_valide(monkeypatch, tmp_path):
 
 
 def test_variable_obligatoire_manquante(monkeypatch, tmp_path):
-    for cle in MINIMAL:
-        monkeypatch.setenv(cle, str(MINIMAL[cle]))
+    for cle, valeur in MINIMAL.items():
+        monkeypatch.setenv(cle, str(valeur))
     monkeypatch.delenv("MODELE_LLM")
     with pytest.raises(ValidationError, match="modele_llm"):
         Config(_env_file=tmp_path / "absent.env")

@@ -1,6 +1,7 @@
 from time import perf_counter
 
 from contrats import FicheModele
+
 from ..contrats.schemas.recherche import (
     RechercheReponse,
     RechercheRequete,
@@ -9,6 +10,8 @@ from ..contrats.schemas.recherche import (
 from ..ia.service_embedding import ServiceEmbedding
 from .chargeur_fiches import ChargeurFiches
 from .service_chroma import ServiceChroma
+
+TAILLE_MAX_EXTRAIT = 200
 
 
 class ServiceRecherche:
@@ -53,6 +56,7 @@ class ServiceRecherche:
                 ResultatRecherche(
                     id=fiche.id_modele,
                     score=score,
+                    extrait=self._extrait(fiche.description),
                     metadonnees=self._metadonnees(fiche),
                 )
             )
@@ -62,6 +66,18 @@ class ServiceRecherche:
             nb_total=len(resultats),
             temps_ms=(perf_counter() - debut) * 1000,
         )
+
+    @staticmethod
+    def _extrait(description: str) -> str:
+        """Retourne un extrait de la description globale, limité à 200 caractères."""
+        if len(description) <= TAILLE_MAX_EXTRAIT:
+            return description
+
+        debut = description[: TAILLE_MAX_EXTRAIT - 1]
+        dernier_espace = debut.rfind(" ")
+        if dernier_espace > 0:
+            debut = debut[:dernier_espace]
+        return f"{debut.rstrip()}…"
 
     @staticmethod
     def _metadonnees(fiche: FicheModele) -> dict[str, str]:
