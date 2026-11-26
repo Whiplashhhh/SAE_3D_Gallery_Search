@@ -12,7 +12,11 @@ from contrats import lire_journal
 from semantique import FusionImpossible, SortieVueVlm, fusionner_descriptions
 
 VALIDE = json.dumps({
+    "titre": "Chaise de bureau rouge",
     "description": "Chaise de bureau rouge à roulettes, avec un dossier haut.",
+    "categorie": "mobilier",
+    "mots_cles": ["chaise", "bureau"],
+    "etat": "intact",
     "divergences_entre_vues": ["La vue de face montre 4 roulettes, la vue de dessus 5."],
 })
 INVALIDE = json.dumps({"description": "Chaise de bureau rouge."})

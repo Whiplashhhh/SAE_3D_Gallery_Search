@@ -15,7 +15,12 @@ Règles :
 
 Réponds uniquement avec un objet JSON, sans texte autour, avec ces champs :
 
+- `titre` : un titre court qui nomme l'objet (ex : "Chaise de bureau rouge").
 - `description` : la description globale de l'objet, en quelques phrases.
+- `categorie` : un seul mot-clé pour la famille de l'objet (ex : "mobilier", "vehicule").
+- `mots_cles` : de 1 à 30 mots-clés de recherche, sans doublon (ex : ["chaise", "bureau"]).
+- `etat` : une seule valeur parmi "intact", "endommage", "ruine", "incomplet",
+  "indetermine". Choisis "indetermine" si les vues ne permettent pas de trancher.
 - `divergences_entre_vues` : une phrase par contradiction entre les vues
   (ex : ["La vue de face montre 4 pieds, la vue de dessus en montre 5."]).
   Liste vide s'il n'y a aucune contradiction.
