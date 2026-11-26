@@ -10,7 +10,7 @@ réponse dans ce format.
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from contrats import MotCle, TexteNonVide
+from contrats import EtatModele, MotCle, TexteNonVide
 
 
 class SortieVueVlm(BaseModel):
@@ -31,5 +31,10 @@ class SortieFusionLlm(BaseModel):
     # Mode strict, comme SortieVueVlm
     model_config = ConfigDict(extra="forbid", frozen=True)
 
+    # Mêmes règles que les champs de FicheModele (D29)
+    titre: TexteNonVide = Field(max_length=200)
     description: TexteNonVide  # description globale de l'objet, toutes vues confondues
+    categorie: MotCle
+    mots_cles: list[MotCle] = Field(min_length=1, max_length=30)
+    etat: EtatModele
     divergences_entre_vues: list[TexteNonVide]  # contradictions entre vues, liste vide si aucune

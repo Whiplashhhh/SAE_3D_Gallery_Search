@@ -58,7 +58,11 @@ def test_prompt_existe():
 
 def exemple_fusion():
     return {
+        "titre": "Chaise de bureau rouge",
         "description": "Chaise de bureau rouge à roulettes, avec un dossier haut.",
+        "categorie": "mobilier",
+        "mots_cles": ["chaise", "bureau"],
+        "etat": "intact",
         "divergences_entre_vues": ["La vue de face montre 4 roulettes, la vue de dessus 5."],
     }
 
@@ -80,12 +84,22 @@ def test_fusion_schema_interdit_les_champs_supplementaires():
 
 def test_fusion_champ_inconnu_refuse():
     donnees = exemple_fusion()
-    donnees["titre"] = "Chaise"
+    donnees["prix"] = "12 euros"
     with pytest.raises(ValidationError):
         SortieFusionLlm.model_validate(donnees)
 
 
-@pytest.mark.parametrize("champ", ["description", "divergences_entre_vues"])
+def test_fusion_etat_hors_liste_refuse():
+    donnees = exemple_fusion()
+    donnees["etat"] = "neuf"
+    with pytest.raises(ValidationError):
+        SortieFusionLlm.model_validate(donnees)
+
+
+@pytest.mark.parametrize(
+    "champ",
+    ["titre", "description", "categorie", "mots_cles", "etat", "divergences_entre_vues"],
+)
 def test_fusion_champ_manquant_refuse(champ):
     donnees = exemple_fusion()
     del donnees[champ]

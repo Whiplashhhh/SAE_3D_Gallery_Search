@@ -178,3 +178,15 @@ Pour chacune : **ce qu'on a choisi** et **pourquoi**.
   `OLLAMA_TENTATIVES`.
 - **Pourquoi** : le client ne connaît pas les modèles des lots, et chaque cas d'échec n'est
   traité qu'à un seul endroit.
+
+---
+
+## 26-11-2026 — Lot B : fiche du modèle
+
+### D29. La fusion produit aussi les métadonnées de la fiche
+- **Choix** : `SortieFusionLlm` contient aussi `titre`, `categorie`, `mots_cles` et `etat`, avec
+  les mêmes règles que `FicheModele`. `couleurs_dominantes` n'est pas demandé au LLM : c'est
+  l'union sans doublon des couleurs vues par le VLM (10 au plus). Les doublons de `mots_cles`
+  sont retirés par `indexer_modele()` avant l'écriture de la fiche.
+- **Pourquoi** : `FicheModele` exige ces champs et aucune étape ne les produisait. Un seul appel
+  au LLM suffit, et les couleurs restent celles réellement observées sur les vues.
