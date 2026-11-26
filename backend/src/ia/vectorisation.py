@@ -54,7 +54,7 @@ VOCABULAIRE = {
 }
 
 
-def vectoriser_texte(texte: str, dimensions: int = 768) -> list[float]:
+def vectoriser_texte(texte: str, dimensions: int) -> list[float]:
     """Produit un vecteur local normalisé à partir des tokens du texte.
 
     Cette représentation légère permet notamment de lancer la recherche sans
