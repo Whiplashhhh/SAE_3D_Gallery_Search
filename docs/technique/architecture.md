@@ -36,9 +36,11 @@ conservés dans `ollama-models`. Un `docker compose down` n'efface pas ces volum
 
 ## Recherche et fiche détaillée
 
-1. Le frontend envoie la requête à `GET /api/recherche`.
+1. Le frontend envoie la requête à `GET /api/recherche`; l'API accepte aussi une requête JSON
+   avec `POST /api/recherche`.
 2. Le backend vectorise le texte avec Ollama, puis demande à ChromaDB les résultats classés.
-3. Les identifiants retournés sont résolus en fiches JSON.
+3. Les identifiants retournés sont résolus en fiches JSON; chaque résultat contient `extrait`,
+   un extrait de 200 caractères maximum de la description globale indexée.
 4. Le lien d'un résultat ouvre `/modeles/:id`. La page appelle `GET /api/modeles/{id}` et affiche
    les détails de la fiche; si un fichier 3D est disponible, elle le récupère avec
    `GET /api/modeles/{id}/fichier`.

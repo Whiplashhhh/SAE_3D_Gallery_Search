@@ -9,8 +9,8 @@ recherche. **Voir le catalogue** ouvre la liste complète.
 ## Rechercher un modèle
 
 1. Entrez une description dans le champ de recherche, par exemple `chaise` ou `voiture`.
-2. Lancez la recherche. Les résultats sont classés par pertinence; le score apparaît sur chaque
-   carte.
+2. Lancez la recherche. Les résultats sont classés par pertinence; chaque carte affiche le score
+   et un court extrait de la description qui justifie le résultat.
 3. Cliquez sur une carte pour ouvrir sa fiche détaillée.
 
 Une recherche vide dans le catalogue affiche les modèles disponibles. Le jeu de démonstration

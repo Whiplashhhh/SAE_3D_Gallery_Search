@@ -7,7 +7,7 @@ Le frontend utilise principalement ces routes, préfixées par `/api` :
 | Méthode | Route | Rôle |
 |---|---|---|
 | `GET` | `/recherche?q=...&k=12` | Recherche vectorielle et résultats classés par score. |
-| `POST` | `/recherche` | Recherche JSON (`texte`, `top_k` et filtres); chaque résultat inclut un extrait de description de 200 caractères maximum. |
+| `POST` | `/recherche` | Recherche JSON (`texte`, `top_k` et filtres); chaque résultat inclut `extrait`, un extrait de la description globale indexée de 200 caractères maximum. |
 | `GET` | `/models` | Liste les fiches disponibles; utilisée pour le catalogue. |
 | `GET` | `/modeles/{id}` | Renvoie le détail d'une fiche, les descriptions par vue et les divergences. |
 | `GET` | `/modeles/{id}/fichier` | Renvoie le fichier 3D si disponible. |
