@@ -62,6 +62,7 @@ def client(tmp_path: Path) -> Iterator[TestClient]:
     app = FastAPI()
     app.state.chroma = chroma
     app.state.chargeur_fiches = chargeur
+    app.state.models_dir = tmp_path / "models"
     app.state.ollama = FauxOllama()
     app.state.recherche = ServiceRecherche(chroma, embeddings, chargeur)
     app.include_router(router, prefix="/api")
@@ -107,3 +108,34 @@ def test_api_recherche_trie_les_resultats_par_score(client: TestClient):
     assert len(resultats) == 3
     assert resultats[0]["id"] == ID_CHAISE
     assert scores == sorted(scores, reverse=True)
+
+
+def test_api_post_recherche_renvoie_un_extrait_de_description(client: TestClient):
+    description = json.loads(FICHE_CHAISE.read_text(encoding="utf-8"))["description"]
+
+    response = client.post(
+        "/api/recherche",
+        json={"texte": "chaise", "top_k": 3},
+    )
+
+    assert response.status_code == 200
+    resultats = response.json()["resultats"]
+    assert len(resultats) == 3
+    assert resultats[0]["id"] == ID_CHAISE
+    assert resultats[0]["extrait"] == description
+    assert len(resultats[0]["extrait"]) <= 200
+
+
+def test_api_post_recherche_limite_la_taille_de_l_extrait(client: TestClient):
+    chemin_fiche = client.app.state.chargeur_fiches.dossier / f"{ID_CHAISE}.json"
+    fiche = json.loads(chemin_fiche.read_text(encoding="utf-8"))
+    fiche["description"] = "description pertinente " * 20
+    chemin_fiche.write_text(json.dumps(fiche), encoding="utf-8")
+
+    response = client.post("/api/recherche", json={"texte": "chaise"})
+
+    assert response.status_code == 200
+    extrait = response.json()["resultats"][0]["extrait"]
+    assert len(extrait) <= 200
+    assert extrait.startswith("description pertinente")
+    assert extrait.endswith("…")

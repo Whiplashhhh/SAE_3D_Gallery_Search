@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from collections.abc import Sequence
-from typing import Any
+from typing import Any, Self
 
 import httpx
 
@@ -29,7 +29,7 @@ class ClientOllama:
         self.tentatives = max(1, int(tentatives))
         self._client = http_client or httpx.Client()
 
-    def __enter__(self) -> "ClientOllama":
+    def __enter__(self) -> Self:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> bool:

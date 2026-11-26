@@ -122,7 +122,7 @@ async function removeModel(model: GalleryModel) {
             <div class="product-info">
               <div>
                 <h2 v-html="highlighted(product.title)"></h2>
-                <p v-html="highlighted(product.description)"></p>
+                <p v-html="highlighted(product.excerpt || product.description)"></p>
                 <div class="tags">
                   <span v-for="tag in product.tags" :key="tag" v-html="highlighted(tag)"></span>
                 </div>
