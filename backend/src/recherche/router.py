@@ -83,7 +83,6 @@ def fiche_info(fiche: FicheModele) -> ModeleInfo:
     )
 
 
-@router.post("/search", response_model=RechercheReponse)
 @router.post("/recherche", response_model=RechercheReponse)
 def search(
     requete: RechercheRequete,
@@ -227,12 +226,6 @@ def stats(
         taille_collection=chroma.compter(),
         ollama_actif=True,
     )
-
-
-@router.get("/health")
-def health():
-    """Fournit une sonde HTTP simple indiquant que l'API répond."""
-    return {"status": "ok"}
 
 
 @router.get("/sante")

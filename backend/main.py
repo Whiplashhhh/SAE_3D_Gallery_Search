@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -42,7 +43,11 @@ app.add_middleware(
 
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 chroma = ServiceChroma(VECTOR_STORE_DIR)
-embeddings = ServiceEmbedding(vectoriser_texte, ollama.embed)
+vectoriser_local = partial(
+    vectoriser_texte,
+    dimensions=configuration.dimension_embedding,
+)
+embeddings = ServiceEmbedding(vectoriser_local, ollama.embed)
 chargeur_fiches = ChargeurFiches(FICHES_DIR)
 indexation = ServiceIndexation(chroma)
 indexation.indexer_fiches(chargeur_fiches)

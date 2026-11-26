@@ -6,6 +6,7 @@ Fichier de tests liés à vectoriser(), avec un faux client (sans Ollama)
 import pytest
 
 from config import Config
+from src.ia.vectorisation import vectoriser_texte
 from semantique import DimensionEmbeddingInvalide, vectoriser
 
 
@@ -57,3 +58,15 @@ def test_texte_vide(config, texte):
         vectoriser(texte, client, config=config)
     # Aucun appel à Ollama
     assert client.appels == []
+
+
+def test_vectoriseur_local_respecte_la_dimension():
+    vecteur = vectoriser_texte("chaise moderne", dimensions=5)
+
+    assert len(vecteur) == 5
+
+
+def test_vectoriseur_local_vide_respecte_la_dimension():
+    vecteur = vectoriser_texte("", dimensions=7)
+
+    assert vecteur == [0.0] * 7
