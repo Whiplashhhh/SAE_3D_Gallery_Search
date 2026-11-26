@@ -1,6 +1,10 @@
 from time import perf_counter
 
-from ..contrats.schemas.recherche import RechercheRequete, RechercheReponse, ResultatRecherche
+from ..contrats.schemas.recherche import (
+    RechercheReponse,
+    RechercheRequete,
+    ResultatRecherche,
+)
 from .depot_vectoriel import DepotVectoriel
 
 
@@ -36,7 +40,15 @@ class MoteurRecherche:
 
             if requete.seuil is not None and score < requete.seuil:
                 continue
-            resultats.append(ResultatRecherche(id=id_, score=score, metadonnees=meta or {}))
+            metadonnees = meta or {}
+            resultats.append(
+                ResultatRecherche(
+                    id=id_,
+                    score=score,
+                    extrait=str(metadonnees.get("description", "")),
+                    metadonnees=metadonnees,
+                )
+            )
 
         return RechercheReponse(
             resultats=resultats,

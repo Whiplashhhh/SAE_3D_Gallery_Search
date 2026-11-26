@@ -34,7 +34,7 @@ function search() {
 
       <nav aria-label="Navigation principale">
         <RouterLink to="/">Accueil</RouterLink>
-        <a href="#catalogue">Catalogue</a>
+        <RouterLink :to="{ name: 'search', query: { q: '' } }">Catalogue</RouterLink>
         <RouterLink to="/ajouter">Ajouter un modèle</RouterLink>
       </nav>
     </div>

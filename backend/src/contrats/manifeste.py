@@ -8,7 +8,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from contrats.common import NomVue, CheminRelatif, IdModele, Sha256
+from contrats.common import CheminRelatif, IdModele, NomVue, Sha256
 
 
 class Vue(BaseModel):

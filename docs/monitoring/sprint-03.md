@@ -100,5 +100,9 @@ distinct.
 
 - Lot A : rendu des `NB_VUES` vues + vignette, puis orchestrateur qui écrit `manifeste_rendu.json` et saute les modèles déjà rendus.
 - Lot B : pipeline complet `manifeste_rendu.json` → `decrire_vue()` × N → `fusionner_descriptions()` → `vectoriser()` → `fiche_modele.json` validée par `contrats`.
-- Lot C : indexer les fiches produites par le Lot B dans ChromaDB ; afficher l'extrait de description qui justifie le match dans les résultats.
+- Lot C : indexer les fiches produites par le Lot B dans ChromaDB.
 - Premier test de bout en bout sur un modèle de `donnees/modeles/`.
+
+**Mise à jour de l'US 4.6 (reportée au Sprint 4)** : chaque résultat de recherche inclut dans
+`ResultatRecherche` un extrait de 200 caractères maximum de la description globale indexée; les
+cartes du frontend l'affichent. Le test d'API et le build frontend passent.

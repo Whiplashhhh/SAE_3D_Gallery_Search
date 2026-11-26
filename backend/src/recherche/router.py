@@ -1,10 +1,12 @@
 from pathlib import Path
+from typing import Annotated
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, File, HTTPException, Query, Request, UploadFile
 from fastapi.responses import FileResponse
 
 from contrats import FicheModele
+
 from ..contrats.schemas.recherche import (
     ModeleDetail,
     ModeleInfo,
@@ -92,9 +94,9 @@ def search(
 
 @router.get("/recherche", response_model=RechercheReponse)
 def recherche_get(
-    q: str = Query(min_length=1),
-    k: int = Query(default=12, ge=1, le=100),
-    service: ServiceRecherche = Depends(get_recherche),
+    service: Annotated[ServiceRecherche, Depends(get_recherche)],
+    q: Annotated[str, Query(min_length=1)],
+    k: Annotated[int, Query(ge=1, le=100)] = 12,
 ):
     """Expose la recherche en GET avec ``q`` et ``k`` comme paramètres URL."""
     return service.rechercher(RechercheRequete(texte=q, top_k=k))
@@ -102,8 +104,8 @@ def recherche_get(
 
 @router.post("/models/upload", response_model=ModeleInfo, status_code=201)
 async def upload_model(
-    fichier: UploadFile = File(...),
-    models_dir: Path = Depends(get_models_dir),
+    fichier: Annotated[UploadFile, File(...)],
+    models_dir: Annotated[Path, Depends(get_models_dir)],
 ):
     """Enregistre un fichier 3D autorisé en attendant son traitement par les Lots A et B.
 
@@ -142,13 +144,16 @@ async def upload_model(
 
 
 @router.get("/models", response_model=list[ModeleInfo])
-def list_models(chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+def list_models(chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)]):
     """Retourne les fiches disponibles sous la forme attendue par le frontend."""
     return [fiche_info(fiche) for fiche in chargeur.charger()]
 
 
 @router.get("/models/{id}", response_model=ModeleInfo)
-def get_model(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
+def get_model(
+    id: str,
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+):
     """Retourne les informations d'un modèle, ou une erreur HTTP 404."""
     fiche = chargeur.obtenir(id)
     if fiche is None:
@@ -159,8 +164,8 @@ def get_model(id: str, chargeur: ChargeurFiches = Depends(get_chargeur_fiches)):
 @router.get("/modeles/{id}", response_model=ModeleDetail)
 def get_modele(
     id: str,
-    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
-    models_dir: Path = Depends(get_models_dir),
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+    models_dir: Annotated[Path, Depends(get_models_dir)],
 ):
     """Alias français de la route de consultation d'un modèle."""
     fiche = chargeur.obtenir(id)
@@ -178,8 +183,8 @@ def get_modele(
 @router.get("/modeles/{id}/fichier")
 def get_fichier_modele(
     id: str,
-    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
-    models_dir: Path = Depends(get_models_dir),
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+    models_dir: Annotated[Path, Depends(get_models_dir)],
 ):
     """Retourne le fichier source d'un modèle lorsqu'il est disponible."""
     if chargeur.obtenir(id) is None:
@@ -194,9 +199,9 @@ def get_fichier_modele(
 @router.delete("/modeles/{id}", status_code=204)
 def delete_modele(
     id: str,
-    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
-    indexation: ServiceIndexation = Depends(get_indexation),
-    models_dir: Path = Depends(get_models_dir),
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+    indexation: Annotated[ServiceIndexation, Depends(get_indexation)],
+    models_dir: Annotated[Path, Depends(get_models_dir)],
 ):
     """Supprime un modèle de l'index, de ses fiches puis des fichiers associés."""
     if chargeur.obtenir(id) is None:
@@ -212,8 +217,8 @@ def delete_modele(
 
 @router.get("/stats", response_model=StatsReponse)
 def stats(
-    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
-    chroma: ServiceChroma = Depends(get_chroma),
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+    chroma: Annotated[ServiceChroma, Depends(get_chroma)],
 ):
     """Retourne les compteurs du catalogue et de la collection vectorielle."""
     return StatsReponse(
@@ -225,9 +230,9 @@ def stats(
 
 @router.get("/sante")
 def sante(
-    chargeur: ChargeurFiches = Depends(get_chargeur_fiches),
-    chroma: ServiceChroma = Depends(get_chroma),
-    ollama: ClientOllama = Depends(get_ollama),
+    chargeur: Annotated[ChargeurFiches, Depends(get_chargeur_fiches)],
+    chroma: Annotated[ServiceChroma, Depends(get_chroma)],
+    ollama: Annotated[ClientOllama, Depends(get_ollama)],
 ):
     """Expose l'état de joignabilité Ollama et le nombre de fiches/vecteurs."""
     return {

@@ -10,7 +10,7 @@ C'est le contraire de io.py qui refuse d'écrire au moindre doute
 
 import json
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Literal
 
@@ -32,7 +32,7 @@ erreur = le traitement de ce modèle est abandonne."""
 
 def _maintenant() -> datetime:
     """Horodatage UTC, toujours avec fuseau"""
-    return datetime.now(timezone.utc)
+    return datetime.now(UTC)
 
 
 class EntreeJournal(BaseModel):
@@ -59,7 +59,7 @@ def journaliser(
     niveau: Niveau = "info",
     id_modele: str | None = None,
 ) -> None:
-    """Ajoute une ligne au journal. Ne lève jamais d'exception.
+    """Ajoute une ligne au journal et signale les erreurs attendues sur stderr.
 
     Le mode "a" garantit que chaque écriture se place à la fin du fichier, même
     si les trois lots tournent en parallèle. Une ligne = un seul appel a
@@ -77,7 +77,7 @@ def journaliser(
         chemin.parent.mkdir(parents=True, exist_ok=True)
         with chemin.open("a", encoding="utf-8") as fichier:
             fichier.write(entree.model_dump_json() + "\n")
-    except Exception as erreur:
+    except (OSError, ValidationError) as erreur:
         # Dernier recours : on ne perd pas l'information, on ne bloque rien
         print(
             f"[journal indisponible] {lot}/{evenement} : {message} ({erreur})",

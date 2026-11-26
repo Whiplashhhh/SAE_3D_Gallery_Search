@@ -112,13 +112,15 @@ de ruine) pour vérifier que la divergence est bien remontée.
 
 - charger les `fiche_modele.json` dans **ChromaDB** (`id_modele` comme identifiant, mots-clés /
   catégorie / couleurs en métadonnées) ;
-- exposer une API REST : `GET /api/recherche?q=...&k=12`, `GET /api/modeles/{id}`,
-  `GET /api/sante` (Ollama joignable ? combien de fiches indexées ?) ;
+- exposer une API REST : `GET /api/recherche?q=...&k=12` et `POST /api/recherche`
+  (requête JSON), `GET /api/modeles/{id}`, `GET /api/sante` (Ollama joignable ?
+  combien de fiches indexées ?) ;
 - au moment de la recherche, vectoriser **la requête** via `/api/embed` d'Ollama (une requête HTTP,
   pas une dépendance au code du lot B) ;
-- filtrage + ranking combinant similarité vectorielle et métadonnées ;
-- galerie Vue 3 : champ de recherche, grille de vignettes, **score de similarité affiché**, page
-  détail avec les vues et l'extrait de description qui justifie le match.
+- filtrage par métadonnées et classement par similarité vectorielle ;
+- galerie Vue 3 : champ de recherche, grille de vignettes, **score de similarité affiché** et
+  extrait court de description sur chaque carte de résultat ; la page détail affiche les
+  descriptions par vue.
 
 **Fini quand** : je tape une requête dans le navigateur et j'obtiens des résultats triés, à partir
 des seules seeds, sans que A ni B n'aient jamais tourné.
